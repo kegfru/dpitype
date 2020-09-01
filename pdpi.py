@@ -82,7 +82,7 @@ def passive_dpi_detect():
         # Most of Passive DPIs catched by this defaults:
         # None IP flags - 0x0000, IP Identification is always 0x0001, TCP flags - 0x004 - RST (for HTTPS), 0x025 - ACK,PUSH,FIN (for HTTP)
         passive_dpi_filter = lambda s: s[IP].flags == 0 and s[IP].id == 1 and s[TCP].flags == 4
-        # sc = AsyncSniffer(filter="host lurkmore.to and port 443", count=10, lfilter = passive_dpi_filter, prn=lambda x:x.summary())  # sniff packets on port 443
+        # sc = AsyncSniffer(filter="host " + host + " and port 443", count=10, lfilter = passive_dpi_filter, prn=lambda x:x.summary())  # sniff packets on port 443
         sc = AsyncSniffer(filter="host " + host + " and port 443", count=10, lfilter = passive_dpi_filter)  # sniff packets on port 443, silent mode
         sc.start()
         s = _get_url(site)
@@ -98,6 +98,8 @@ def passive_dpi_detect():
             return 2
     elif '1' in checkresults:
         return 1
+    else
+        return 0
 
 def main():
     dpi_type = 0
