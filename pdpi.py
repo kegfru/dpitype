@@ -98,7 +98,7 @@ def passive_dpi_detect():
             return 2
     elif '1' in checkresults:
         return 1
-    else
+    else:
         return 0
 
 def main():
@@ -117,7 +117,7 @@ def main():
         print("Ok")
     else:
         print("Smth wrong")
-    print("Trying black-list hosts via proxy:\t", end =" ")
+    # print("Trying black-list hosts via proxy:\t", end =" ")
     # proxy = check_urls(black_list, use_proxy=True, white=False)
     # if proxy == 1:
     #     print("Ok")
