@@ -6,11 +6,6 @@ import urllib.error
 import sys
 from scapy.all import *
 
-# import socket
-# timeout in seconds
-# timeout = 10
-# socket.setdefaulttimeout(timeout)
-
 VERSION = "v0.1"
 USERAGENT = "bydpi_checker " + VERSION
 
@@ -19,16 +14,11 @@ proxy_addr = 'proxy.antizapret.prostovpn.org:3128'
 white_list = (
     "https://www.prior.by",
     "https://beltelecom.by",
-    # "https://lurkmore.to",
 )
 
 black_list = (
-    # "https://naviny.media",
     "https://naviny.by",
     "https://lurkmore.to",
-    # "https://beltelecom.by",
-    # "https://a2day.net",
-    # "https://govkino.ru",
     # "https://charter97.org",
 )
 
@@ -66,26 +56,19 @@ def check_urls(sites_list, use_proxy=None, white=True):
     site_list = list(sites_list)
     for site in sorted(site_list):
         if use_proxy:
-            # print("Accessing via proxy: " + site)
             s = _get_url(site, proxy)
         else:
-            # print("Accessing: " + site)
             s = _get_url(site)
         checkresults.append(s)
     if white:
         if 2 in checkresults:
-            # Blocked
-            # print("white list is blocked, something went wrong")
             return 2
         else:
-            # print("all is ok")
             return 1
     else:
         if 1 in checkresults:
-            # print("black list is accessible, that's not ok")
             return 2
         else:
-            # print("all is ok")
             return 1
 
 
@@ -99,10 +82,8 @@ def passive_dpi_detect():
     s = _get_url("https://lurkmore.to")
     results = sc.stop()
     if results:
-        # print("Passive type DPI detected")
         return 1
     else:
-        # print("Another type of DPI detected")
         return 2
     # results.show()
 
@@ -121,7 +102,6 @@ def main():
         print("Ok")
     else:
         print("Smth wrong")
-    # # check_urls(black_list, use_proxy=False)
     if white == 1 and black == 1:
         dpi_type = passive_dpi_detect()
     if dpi_type == 1:
