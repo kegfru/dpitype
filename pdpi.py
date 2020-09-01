@@ -61,7 +61,7 @@ def check_urls(sites_list, use_proxy=None, white=True):
         else:
             s = _get_url(site)
         checkresults.append(s)
-    if white:
+    if white or use_proxy:
         if 2 in checkresults:
             return 2
         else:
@@ -102,19 +102,25 @@ def passive_dpi_detect():
 def main():
     dpi_type = 0
     my_ip = get_ip()
-    print(my_ip)
-    print("Trying white-list hosts:\t", end =" ")
+    print("My ip is: " + my_ip)
+    print("Trying white-list hosts:\t\t", end =" ")
     white = check_urls(white_list, use_proxy=False, white=True)
     if white == 1:
         print("Ok")
     else:
         print("Smth wrong")
-    print("Trying black-list hosts:\t", end =" ")
+    print("Trying black-list hosts:\t\t", end =" ")
     black = check_urls(black_list, use_proxy=False, white=False)
     if black == 1:
         print("Ok")
     else:
         print("Smth wrong")
+    print("Trying black-list hosts via proxy:\t", end =" ")
+    # proxy = check_urls(black_list, use_proxy=True, white=False)
+    # if proxy == 1:
+    #     print("Ok")
+    # else:
+    #     print("Proxy doesn't work")
     if white == 1 and black == 1:
         dpi_type = passive_dpi_detect()
     if dpi_type == 0:
